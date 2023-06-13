@@ -3,85 +3,92 @@ import { CenterPage, FooterPage, LeftPage, RightPage, TopPage } from './componen
 import { NewsPage, TablePage, WeatherPage } from './components/secondary';
 
 const App = () => {
-
   const [componenteBottom, setComponenteBottom] = useState(0);
-  // const ubicaciones = [ TopPage, LeftPage, CenterPage, RightPage, FooterPage ];
-  const componentes = [ WeatherPage, NewsPage, TablePage ];
+  const componentes = [WeatherPage, NewsPage, TablePage];
 
   const [contenedor, setContenedor] = useState('');
-  const [page, setPage] = useState();
+  const [page, setPage] = useState(0);
 
-  // const cambiarComponente = () => {
-  //   const indiceSiguiente = ( componenteBottom + 1 ) % componentes.length;
-  //   setComponenteBottom(indiceSiguiente);
-  // }
-
-  const PageToFooter = componentes[componenteBottom];
-
-  // const PageToTop = componentes[componenteBottom];
-
+  const [ubicacionComponentes, setUbicacionComponentes] = useState({
+    arriba: null,
+    izquierda: null,
+    centro: null,
+    derecha: null,
+    abajo: null,
+  });
 
   const handleConteiner = (event) => {
     setContenedor(event.target.value);
-  }
+  };
 
   const handlePage = (event) => {
-    setPage(event.target.value);
-    console.log( typeof(page) );
-  }
+    setPage(Number(event.target.value));
+  };
 
   const moveElement = () => {
-    console.log(contenedor);
-    console.log(page);
-
     switch (contenedor) {
-      case "arriba":
-        console.log('arriba');
+      case 'arriba':
+        setUbicacionComponentes((prevUbicacionComponentes) => ({
+          ...prevUbicacionComponentes,
+          arriba: componentes[page],
+        }));
         break;
-      case "abajo":
-        console.log('abajo');
+      case 'izquierda':
+        setUbicacionComponentes((prevUbicacionComponentes) => ({
+          ...prevUbicacionComponentes,
+          izquierda: componentes[page],
+        }));
         break;
-      case "izquierda":
-        console.log('izquierda');
+      case 'centro':
+        setUbicacionComponentes((prevUbicacionComponentes) => ({
+          ...prevUbicacionComponentes,
+          centro: componentes[page],
+        }));
         break;
-      case "derecha":
-        console.log('derecha');
+      case 'derecha':
+        setUbicacionComponentes((prevUbicacionComponentes) => ({
+          ...prevUbicacionComponentes,
+          derecha: componentes[page],
+        }));
         break;
+      case 'abajo':
+        setUbicacionComponentes((prevUbicacionComponentes) => ({
+          ...prevUbicacionComponentes,
+          abajo: componentes[page],
+        }));
+      break;
       default:
         break;
     }
+  };
 
-    return (
-      <>
-        <p>moveElement</p>
-      </>
-    );
-    
-    
-  }
+  const PageTop = ubicacionComponentes.arriba;
+  const PageLeft = ubicacionComponentes.izquierda;
+  const PageCenter = ubicacionComponentes.centro;
+  const PageRight = ubicacionComponentes.derecha;
+  const PageBottom = ubicacionComponentes.abajo;
 
   return (
-    <div className='app-container'>
-
-      <div style={{ display: 'flex', alignItems: 'center' }}>  
+    <div className="app-container">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <div style={{ marginRight: '100px' }}>
           <h3>Ubicacion:</h3>
           <select value={contenedor} onChange={handleConteiner}>
             <option value="">Seleccionar</option>
             <option value="arriba">Arriba</option>
-            <option value="abajo">Abajo</option>
             <option value="izquierda">Izquierda</option>
+            <option value="centro">Centro</option>
             <option value="derecha">Derecha</option>
+            <option value="abajo">Abajo</option>
           </select>
           <p>Opción seleccionada: {contenedor}</p>
         </div>
-
 
         <div>
           <h3>Elemento:</h3>
           <select value={page} onChange={handlePage}>
             <option value="">Seleccionar</option>
-            <option value="0">Weither</option>
+            <option value="0">Weather</option>
             <option value="1">News</option>
             <option value="2">Table</option>
           </select>
@@ -89,25 +96,32 @@ const App = () => {
         </div>
       </div>
 
-      <button className='button' onClick={moveElement}>Mover componente</button>
-      {/* <button className='button' onClick={cambiarComponente} >Cambiar componente</button> */}
+      <button className="button" onClick={moveElement}>
+        Mover componente
+      </button>
 
-
-      <TopPage />
-      <div className='left-right-container'>
-        <LeftPage />
-        <CenterPage />
-        <RightPage />
+      <div className='top-component'>
+        {PageTop && <TopPage componente={<PageTop />} />}
       </div>
-      <FooterPage componente={<PageToFooter />} />
-      
 
-      {
-        moveElement()
-      }
-      
+      <div className="left-right-container">
+        <div className='left-component'>
+          {PageLeft && <LeftPage componente={<PageLeft />} />}
+        </div>
+        <div className='center-component'>
+          {PageCenter && <CenterPage componente={<PageCenter />} />}
+        </div>
+        <div className='right-component'>
+          {PageRight && <RightPage componente={<PageRight />} />}
+        </div>
+      </div>
+
+      <div className='footer-component'>
+        {PageBottom && <FooterPage componente={<PageBottom />} />}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
+
