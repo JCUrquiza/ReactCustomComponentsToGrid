@@ -3,7 +3,7 @@ import { CenterPage, FooterPage, LeftPage, RightPage, TopPage } from './componen
 import { NewsPage, TablePage, WeatherPage } from './components/secondary';
 
 const App = () => {
-  const [componenteBottom, setComponenteBottom] = useState(0);
+  
   const componentes = [WeatherPage, NewsPage, TablePage];
 
   const [contenedor, setContenedor] = useState('');
@@ -81,7 +81,6 @@ const App = () => {
             <option value="derecha">Derecha</option>
             <option value="abajo">Abajo</option>
           </select>
-          <p>Opción seleccionada: {contenedor}</p>
         </div>
 
         <div>
@@ -92,7 +91,6 @@ const App = () => {
             <option value="1">News</option>
             <option value="2">Table</option>
           </select>
-          <p>Opción seleccionada: {page}</p>
         </div>
       </div>
 
