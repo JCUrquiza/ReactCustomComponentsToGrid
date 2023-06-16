@@ -115,7 +115,7 @@ const App = () => {
       </div>
 
       <div className='footer-component'>
-        {PageBottom && <FooterPage componente={<PageBottom />} />}
+        {/* {PageBottom && <FooterPage componente={<PageBottom />} />} */}
       </div>
     </div>
   );
